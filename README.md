@@ -2,10 +2,9 @@
 <br /><br /><br />
 
 # What is Redux?
-<!-- 리덕스 로고 넣기 -->
-<!-- ![redux-logo](https://github.com/dabinchiii/redux-toolkit-practice/assets/81626630/f0e14a00-4b1f-41e6-ad7f-75208c27324e) -->
-<img src="https://github.com/dabinchiii/redux-toolkit-practice/assets/81626630/f0e14a00-4b1f-41e6-ad7f-75208c27324e" height="200"/>
-https://redux.js.org/
+
+[<img src="https://github.com/dabinchiii/redux-toolkit-practice/assets/81626630/f0e14a00-4b1f-41e6-ad7f-75208c27324e" height="150"/><br />
+](https://redux.js.org/)
 
 ### "A Predictable State Container for JS Apps"
 
@@ -83,4 +82,29 @@ Redux에서 제공하는 패턴과 tool들을 이용하면,
 **3. Reducer**
     : handles the action and decides how to update the state <br />(Ties the store and actions together)
 
+<br />
 
+# Three Principles
+
+### 1. The global state of your application is stored an object inside a single store.
+
+> Redux store에 의해 관리되는 **하나의 객체**에 state를 유지
+
+### 2. The only way to change the state is to dispatch an action.
+
+> app의 state를 업데이트하기 위해서, Redux가 action을 통해 그것을 알도록 해야한다. State object를 직접 업데이트하도록 허용되지 않는다.
+
+### 3. To specify how the state tree is updated based on actions, you write pure reducers.
+
+> Reducer - (previouState, action) => newState
+<br />이전 state를 업데이트하는 대신, 새로운 state를 리턴한다.
+<br />state tree가 어떻게 업데이트되었는지 알 수 있도록, reducer를 완전하게 작성하여야 한다.
+
+<br />
+
+# Actions
+* Application이 store와 상호작용할 수 있는 유일한 방법
+* app에서 redux store로 정보를 운반
+* Plain JavaScript objects
+* app에서 발생한 무언가를 설명하는 'type' property를 가진다.
+* 'type' property는 전형적으로 문자열 상수로 정의된다.
