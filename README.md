@@ -3,6 +3,8 @@
 
 # What is Redux?
 <!-- 리덕스 로고 넣기 -->
+<!-- ![redux-logo](https://github.com/dabinchiii/redux-toolkit-practice/assets/81626630/f0e14a00-4b1f-41e6-ad7f-75208c27324e) -->
+<img src="https://github.com/dabinchiii/redux-toolkit-practice/assets/81626630/f0e14a00-4b1f-41e6-ad7f-75208c27324e" />
 https://redux.js.org/
 
 ### "A Predictable State Container for JS Apps"
