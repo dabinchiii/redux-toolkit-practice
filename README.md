@@ -108,3 +108,47 @@ Redux에서 제공하는 패턴과 tool들을 이용하면,
 * Plain JavaScript objects
 * app에서 발생한 무언가를 설명하는 'type' property를 가진다.
 * 'type' property는 전형적으로 문자열 상수로 정의된다.
+
+<br />
+
+# Reducers
+* store에 전해진 action들에 대해 app의 state가 어떻게 변화하는지를 명시
+* state와 action을 arguments로 받아서 next state를 리턴하는 함수
+    > (previousState, action) => newState
+
+<br />
+
+# Redux Store
+* 전체 app에 하나의 store
+* Responsibility :
+    - app의 state를 보관
+    - <code>getState()</code>를 통해 state에 접근을 허용
+    - <code>dispatch(action)</code>을 통해 state가 업데이트되도록 허용 
+    - <code>subscribe(listener)</code>를 통해 listener를 등록
+    - <code>subscribe(listener)</code>에 의해 반환된 함수를 통해 listener들의 등록 취소를 처리
+
+<br />
+
+# Redux API
+* bindActionCreators(actionCreators, dispatch)
+
+<br />
+
+# Writing Reducers
+### Splitting Reducers [#](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#splitting-reducers)
+* feature에 따라 분리하는 것을 권장
+* 일반적으로 특정한 feature을 위한 Redux code는 "slice" file이라고 불리는 하나의 파일로 작성한다.
+* "slice reducer"
+    -  the reducer for a specific section of the Redux app state
+
+### Combining Reducers [#](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#combining-reducers)
+* combineReducer
+
+<br />
+
+# Middleware
+* custom functionality를 위해 Redux를 확장하도록 제시된 방법
+* action을 보내는 순간과 store에 도착하는 순간 사이에 third-party 확장을 사용할 수 있는 지점을 제공
+* logging(로그 기록), crash reporting, 비동기 작업 수행 등에 사용
+
+
