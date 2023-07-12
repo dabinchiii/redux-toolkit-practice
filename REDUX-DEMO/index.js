@@ -5,6 +5,8 @@ const bindActionCreators = redux.bindActionCreators;
 // 스펠링 실수 방지를 위해 상수로 선언
 const CAKE_ORDERED = 'CAKE_ORDERED';
 const CAKE_RESTOCKED = 'CAKE_RESTOCKED';
+const ICECREAM_ORDERED = 'ICECREAM_ORDERED';
+const ICECREAM_RESTOCKED = 'ICECREAM_RESTOCKED';
 
 // action creator : a function that returns an object
 function orderCake() {
@@ -22,9 +24,24 @@ function restockCake(qty = 1) {
     };
 }
 
+function orderIcecream(qty = 1) {
+    return {
+        type: ICECREAM_ORDERED,
+        payload: qty,
+    };
+}
+
+function restockIcecream(qty = 1) {
+    return {
+        type: ICECREAM_RESTOCKED,
+        payload: qty,
+    };
+}
+
 // 초기 상태 정의 (object 형태)
 const initialState = {
     numOfCakes: 10,
+    numOfIcecreams: 20,
 }
 
 // reducer
@@ -41,11 +58,21 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 numOfCakes: state.numOfCakes + action.payload,
-            }
+            };
+        case ICECREAM_ORDERED:
+            return {
+                ...state,
+                numOfIcecreams: state.numOfIcecreams - 1,
+            };
+        case ICECREAM_RESTOCKED:
+            return {
+                ...state,
+                numOfIcecreams: state.numOfIcecreams + action.payload,
+            };
         default: // 이전 상태 그대로 반환
             return state;
     }
-}
+} // action type이 많아지면 관리하기 힘들어질 것이다.
 
 // parameter : reducer function (초기 상태를 가짐)
 // store 정의
@@ -72,11 +99,17 @@ const unsubscribe = store.subscribe(() =>
 // bindActionCreator의 use case
     // 1. Redux를 인식하지 못하는 컴포넌트에 action creator를 전달하는 경우
     // 2. dispatch 또는 Redux store를 전달하지 않는 경우
-const actions = bindActionCreators({ orderCake, restockCake}, store.dispatch);
+const actions = bindActionCreators(
+    { orderCake, restockCake, orderIcecream, restockIcecream },
+    store.dispatch
+);
 actions.orderCake();
 actions.orderCake();
 actions.orderCake();
 actions.restockCake(3);
+actions.orderIcecream();
+actions.orderIcecream();
+actions.restockIcecream(2);
 
 // listener 등록 취소
 unsubscribe();
