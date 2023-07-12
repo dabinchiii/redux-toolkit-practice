@@ -1,6 +1,7 @@
 const redux = require('redux');
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
+const combineReducers = redux.combineReducers;
 
 // 스펠링 실수 방지를 위해 상수로 선언
 const CAKE_ORDERED = 'CAKE_ORDERED';
@@ -39,15 +40,25 @@ function restockIcecream(qty = 1) {
 }
 
 // 초기 상태 정의 (object 형태)
-const initialState = {
+// const initialState = {
+//     numOfCakes: 10,
+//     numOfIcecreams: 20,
+// }
+
+// reducer를 분리하기 위해 state 분리
+const initialCakeState = {
     numOfCakes: 10,
+}
+
+const initialIcecreamState = {
     numOfIcecreams: 20,
 }
 
 // reducer
 // arguments : previousState, action
 // return value : newState
-const reducer = (state = initialState, action) => {
+// multiple reducer들로 분리 (cakeReducer, icecreamReducer)
+const cakeReducer = (state = initialCakeState, action) => {
     switch(action.type) { // switch문으로 action type에 따라 분기
         case CAKE_ORDERED:
             return {
@@ -59,6 +70,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 numOfCakes: state.numOfCakes + action.payload,
             };
+        default: // 이전 상태 그대로 반환
+            return state;
+    }
+}
+
+const icecreamReducer = (state = initialIcecreamState, action) => {
+    switch(action.type) {
         case ICECREAM_ORDERED:
             return {
                 ...state,
@@ -69,14 +87,20 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 numOfIcecreams: state.numOfIcecreams + action.payload,
             };
-        default: // 이전 상태 그대로 반환
+        default:
             return state;
     }
-} // action type이 많아지면 관리하기 힘들어질 것이다.
+}
 
-// parameter : reducer function (초기 상태를 가짐)
+// conbineReducers - parameter : (key : reducer) 쌍으로 이루어진 객체
+const rootReducer = combineReducers({
+    cake: cakeReducer,
+    icecream: icecreamReducer,
+});
+
+// createStore - parameter : reducer function (초기 상태를 가짐)
 // store 정의
-const store = createStore(reducer);
+const store = createStore(rootReducer);
 console.log('Initial state', store.getState());
 
 // listener 등록
