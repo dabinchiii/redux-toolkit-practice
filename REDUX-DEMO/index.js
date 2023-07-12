@@ -1,5 +1,6 @@
 const redux = require('redux');
 const createStore = redux.createStore;
+const bindActionCreators = redux.bindActionCreators;
 
 // 스펠링 실수 방지를 위해 상수로 선언
 const CAKE_ORDERED = 'CAKE_ORDERED';
@@ -57,12 +58,25 @@ const unsubscribe = store.subscribe(() =>
     console.log('update state', store.getState())
 );
 
-// parameter : action
+// dispatch - parameter : action
 // dispatch()로 state 업데이트
-store.dispatch(orderCake()); // action creator가 action 반환
-store.dispatch(orderCake());
-store.dispatch(orderCake());
-store.dispatch(restockCake(3));
+// store.dispatch(orderCake()); // action creator가 action 반환
+// store.dispatch(orderCake());
+// store.dispatch(orderCake());
+// store.dispatch(restockCake(3));
+
+
+// bindActionCreators - parameter : actionCreators, dispatch
+// bindActionCreator 사용하여 state 업데이트
+    // presentational 컴포넌트가 redux를 인식하지 않고 state 업데이트 가능
+// bindActionCreator의 use case
+    // 1. Redux를 인식하지 못하는 컴포넌트에 action creator를 전달하는 경우
+    // 2. dispatch 또는 Redux store를 전달하지 않는 경우
+const actions = bindActionCreators({ orderCake, restockCake}, store.dispatch);
+actions.orderCake();
+actions.orderCake();
+actions.orderCake();
+actions.restockCake(3);
 
 // listener 등록 취소
 unsubscribe();
