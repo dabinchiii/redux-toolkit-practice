@@ -2,6 +2,11 @@ const redux = require('redux');
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
 const combineReducers = redux.combineReducers;
+const applyMiddleware = redux.applyMiddleware;
+
+// middleware
+const reduxLogger = require('redux-logger');
+const logger = reduxLogger.createLogger();
 
 // 스펠링 실수 방지를 위해 상수로 선언
 const CAKE_ORDERED = 'CAKE_ORDERED';
@@ -100,14 +105,12 @@ const rootReducer = combineReducers({
 
 // createStore - parameter : reducer function (초기 상태를 가짐)
 // store 정의
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(logger));
 console.log('Initial state', store.getState());
 
 // listener 등록
 // subscribe() : 등록 취소를 처리하는 함수를 반환
-const unsubscribe = store.subscribe(() => 
-    console.log('update state', store.getState())
-);
+const unsubscribe = store.subscribe(() => {});
 
 // dispatch - parameter : action
 // dispatch()로 state 업데이트
