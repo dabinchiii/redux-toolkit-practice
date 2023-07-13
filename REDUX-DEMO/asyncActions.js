@@ -1,5 +1,8 @@
 const redux = require('redux');
+const thunkMiddleware = require('redux-thunk').default;
+const axios = require('axios');
 const createStore = redux.createStore;
+const applyMiddleware = redux.applyMiddleware;
 
 // initial state
 const initialState = {
@@ -57,6 +60,25 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-// create redux store
-const store = createStore(reducer);
+// action creator
+// thunk middleware 사용하면 action 객체 대신 함수를 리턴할 수 있다.
+const fetchUsers = () => {
+    return function(dispatch) {
+        dispatch(fetchUsersRequest());
+        axios
+            .get('https://jsonplaceholder.typicode.com/users')
+            .then(response => {
+                const users = response.data.map((user) => user.id);
+                dispatch(fetchUsersSuccess(users));
+            }).catch(error => {
+                dispatch(fetchUsersFailure(error.message));
+            }
+        )
+    };
+}
 
+// create redux store
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+
+store.subscribe(() => { console.log(store.getState()) });
+store.dispatch(fetchUsers())
